@@ -1,6 +1,9 @@
 alpha-cli
 =========
 
+[![Build Status](https://travis-ci.org/lifeomic/alpha-cli.svg?branch=master)](https://travis-ci.org/lifeomic/alpha-cli)
+[![Coverage Status](https://coveralls.io/repos/github/lifeomic/alpha-cli/badge.svg)](https://coveralls.io/github/lifeomic/alpha-cli)
+
 `alpha-cli` provides a curl-like CLI wrapper around the `alpha` client. This
 allows Lambda services to be directly invoked manually.
 
