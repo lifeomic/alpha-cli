@@ -15,7 +15,7 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint .",
     "pretest": "yarn lint",
-    "test": "ava --verbose"
+    "test": "nyc ava --verbose"
   },
   "devDependencies": {
     "@lifeomic/eslint-plugin-node": "^1.0.1",
@@ -23,7 +23,8 @@
     "coveralls": "^3.0.1",
     "eslint": "^4.8.0",
     "koa": "^2.3.0",
-    "koa-bodyparser": "^4.2.0"
+    "koa-bodyparser": "^4.2.0",
+    "nyc": "^12.0.2"
   },
   "ava": {
     "files": [
