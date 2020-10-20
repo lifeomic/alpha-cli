@@ -32,7 +32,7 @@ const alphaProxy = async (baseConfig, callback) => {
         response.end();
       });
     });
-  }).listen(baseConfig.proxyPort);
+  }).listen(baseConfig.proxyPort, 'localhost');
 };
 
 module.exports = alphaProxy;
