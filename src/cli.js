@@ -4,8 +4,9 @@ const glob = require('glob');
 const path = require('path');
 const yargs = require('yargs');
 const ValidationError = require('./ValidationError');
+const alphaProxy = require('./alphaProxy');
 
-const plugins = glob.sync(path.join(__dirname, 'plugins/*.js'))
+const plugins = glob.sync(path.join(__dirname, 'plugins/*.js '))
   .map(require)
   .map((loader) => loader(yargs));
 
@@ -17,11 +18,7 @@ const config = {
 
 const skipRequest = plugins.some((execute) => execute(config));
 
-(async function run () {
-  if (skipRequest) {
-    return;
-  }
-
+const callAlpha = async (config) => {
   const client = new Alpha();
   const response = await client.request(config);
 
@@ -30,13 +27,21 @@ const skipRequest = plugins.some((execute) => execute(config));
   }, response);
 
   // Use raw output stream to preserve the raw data
-  process.stdout.write(processedResponse.data);
-})().catch((error) => {
-  if (error instanceof ValidationError) {
-    process.stdout.write(error.stdout);
-    process.stderr.write(error.stderr);
-  } else {
-    console.error(error.toString());
-  }
-  process.exitCode = 1;
-});
+  return processedResponse;
+};
+
+if (config.proxy) {
+  alphaProxy(config, callAlpha);
+} else if (!skipRequest) {
+  callAlpha(config).then((result) => {
+    process.stdout.write(result.data);
+  }).catch((error) => {
+    if (error instanceof ValidationError) {
+      process.stdout.write(error.stdout);
+      process.stderr.write(error.stderr);
+    } else {
+      console.error(error.toString());
+    }
+    process.exitCode = 1;
+  });
+}
