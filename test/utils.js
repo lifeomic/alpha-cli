@@ -41,6 +41,19 @@ function runCommand () {
   });
 }
 
+function spawnProxy () {
+  const args = Array.prototype.slice.call(arguments);
+  const command = cli;
+
+  return new Promise((resolve) => {
+    const child = spawn(command, args);
+
+    child.stdout.on('data', () => {
+      resolve(child);
+    });
+  });
+}
+
 function createTestServer (test, app) {
   const server = test.context.server = http.createServer(app.callback());
 
@@ -61,5 +74,6 @@ function destroyTestServer (test) {
 module.exports = {
   createTestServer,
   destroyTestServer,
-  runCommand
+  runCommand,
+  spawnProxy
 };

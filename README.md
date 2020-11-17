@@ -21,6 +21,8 @@ Options:
   -H, --header   Pass custom header line to server
   -X, --request  Specify the request method to use
   --data-binary  Send binary data
+  --proxy        Run a local http proxy that passes requests to alpha 
+  --proxy-port   The port to run the http proxy on
   -V, --version  Show the version number and quit                      [boolean]
 
 $ alpha lambda://user-service/users/jagoda | jq
