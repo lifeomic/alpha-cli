@@ -7,7 +7,7 @@ module.exports = (yargs) => {
 
   return (config) => {
     if (yargs.argv['proxy']) {
-      config.proxy = true;
+      config.proxied = true;
     }
   };
 };

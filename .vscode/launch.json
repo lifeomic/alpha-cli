@@ -7,22 +7,14 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Forum Service Proxy",
-            "skipFiles": [
-                "<node_internals>/**"
+            "name": "Debug AVA test file",
+            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/ava",
+            "runtimeArgs": [
+              "${file}"
             ],
-            "program": "${workspaceFolder}/src/cli.js",
-            "args": ["--proxy", "--proxy-port", "9000", "lambda://forum-service:deployed"]
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Review Service Proxy",
             "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}/src/cli.js",
-            "args": ["--proxy", "--proxy-port", "9001", "lambda://review-service:deployed"]
-        },
+              "<node_internals>/**/*.js"
+            ]
+          }
     ]
 }

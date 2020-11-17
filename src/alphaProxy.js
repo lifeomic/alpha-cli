@@ -1,7 +1,7 @@
 const { createServer } = require('http');
 
-const alphaProxy = async (baseConfig, callback) => {
-  createServer((req, response) => {
+const alphaProxy = (baseConfig, callback) => {
+  return createServer((req, response) => {
     const { method, url } = req;
     const requestConfig = {
       ...baseConfig,

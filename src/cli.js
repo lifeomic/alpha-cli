@@ -30,8 +30,22 @@ const callAlpha = async (config) => {
   return processedResponse;
 };
 
-if (config.proxy) {
-  alphaProxy(config, callAlpha);
+if (config.proxied) {
+  const server = alphaProxy(config, callAlpha).on('listening', () => {
+    console.log(`Proxy is listening on port ${config.proxyPort}; Press any key to quit;`);
+  });
+
+  // These are only relevant in a terminal, not in tests
+  /* istanbul ignore next */
+  if (process.stdin.isTTY) {
+    /* istanbul ignore next */
+    process.stdin.setRawMode(true);
+  }
+  process.stdin.on('data', () => {
+    server.close(() => {
+      process.exit(0);
+    });
+  });
 } else if (!skipRequest) {
   callAlpha(config).then((result) => {
     process.stdout.write(result.data);
