@@ -1,6 +1,6 @@
 {
   "name": "@lifeomic/alpha-cli",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Curl-like CLI for the Alpha client",
   "author": "LifeOmic <development@lifeomic.com>",
   "license": "MIT",
