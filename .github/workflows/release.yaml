@@ -20,7 +20,6 @@ jobs:
         run: |
           yarn install
           yarn test
-          yarn coverage
       - id: tagExistsAndVersion
         name: Check if tags exist in NPM and GIT
         run: |
