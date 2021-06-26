@@ -37,6 +37,7 @@
   "dependencies": {
     "@lifeomic/alpha": "^1.4.1",
     "glob": "^7.1.2",
+    "lodash": "^4.17.21",
     "pkginfo": "^0.4.1",
     "yargs": "^10.0.3"
   },

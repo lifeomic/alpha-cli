@@ -21,6 +21,7 @@ const skipRequest = plugins.some((execute) => execute(config));
 const callAlpha = async (config) => {
   const client = new Alpha();
   const response = await client.request(config);
+  console.log(response);
 
   const processedResponse = config.responsePostProcessors.reduce(function (reduce, processor) {
     return processor(reduce);
@@ -47,6 +48,7 @@ if (config.proxied) {
     });
   });
 } else if (!skipRequest) {
+  console.log(config);
   callAlpha(config).then((result) => {
     process.stdout.write(result.data);
   }).catch((error) => {
