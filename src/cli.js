@@ -31,7 +31,7 @@ const callAlpha = async (config) => {
 };
 
 if (config.proxied) {
-  const server = alphaProxy(config, callAlpha).on('listening', () => {
+  alphaProxy(config, callAlpha).on('listening', () => {
     console.log(`Proxy is listening on port ${config.proxyPort}; Press any key to quit;`);
   });
 
@@ -42,9 +42,7 @@ if (config.proxied) {
     process.stdin.setRawMode(true);
   }
   process.stdin.on('data', () => {
-    server.close(() => {
-      process.exit(0);
-    });
+    process.exit(0);
   });
 } else if (!skipRequest) {
   callAlpha(config).then((result) => {
