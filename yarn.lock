@@ -140,9 +140,9 @@
     arrify "^1.0.1"
 
 "@lifeomic/alpha@^2.0.1":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@lifeomic/alpha/-/alpha-2.0.4.tgz#372c9c6dea279cc97e469c87a494197731931609"
-  integrity sha512-dHuhokC6Lzml1S/SoBOmx+XuGVb8GN4rL1yWxaocez/jkcCIZk4ByGRF0KWDtTM7Ug04sEg33/CwdPs7ahH9LQ==
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@lifeomic/alpha/-/alpha-2.1.0.tgz#7c5d00e228309ce87b98193196359698cca3fc9d"
+  integrity sha512-T71EUakgnb0s//s997zgoTXae9vj3uD+ozKjOJt5GhStq5cXcNvQ8zNIuoIoHpONWOmiZT/TVR5OcGXuAsRIVw==
   dependencies:
     aws-sdk "^2.998.0"
     axios "^0.22.0"
