@@ -3,10 +3,10 @@ name: Release
 on:
   push:
     branches:
-      - "master"
+      - master
 
 jobs:
-  build:
+  main:
     runs-on: ubuntu-latest
     environment: npm
     env:
@@ -14,15 +14,13 @@ jobs:
       NPM_TOKEN: ${{ secrets.LIFEOMIC_NPM_TOKEN }}
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
           node-version: 14
-          registry-url: https://registry.npmjs.org
       - name: Test
         run: |
-          yarn install
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+          yarn install --frozen-lockfile
           yarn test
       - name: Publish
         run: |
