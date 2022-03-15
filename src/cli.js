@@ -6,7 +6,7 @@ const yargs = require('yargs');
 const ValidationError = require('./ValidationError');
 const alphaProxy = require('./alphaProxy');
 
-const plugins = glob.sync(path.join(__dirname, 'plugins/*.js '))
+const plugins = glob.sync(path.join(__dirname, 'plugins/*.js'))
   .map(require)
   .map((loader) => loader(yargs));
 
