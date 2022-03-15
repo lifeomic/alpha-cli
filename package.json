@@ -1,6 +1,6 @@
 {
   "name": "@lifeomic/alpha-cli",
-  "version": "1.0.4",
+  "version": "0.0.0",
   "description": "Curl-like CLI for the Alpha client",
   "author": "LifeOmic <development@lifeomic.com>",
   "license": "MIT",
@@ -20,11 +20,13 @@
   "devDependencies": {
     "@lifeomic/eslint-plugin-node": "^1.0.1",
     "ava": "^0.24.0",
+    "conventional-changelog-conventionalcommits": "^4.6.3",
     "coveralls": "^3.0.1",
     "eslint": "^4.8.0",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
-    "nyc": "^12.0.2"
+    "nyc": "^12.0.2",
+    "semantic-release": "^19.0.2"
   },
   "ava": {
     "files": [
@@ -35,10 +37,10 @@
     "extends": "plugin:@lifeomic/node/recommended"
   },
   "dependencies": {
-    "@lifeomic/alpha": "^2.0.1",
+    "@lifeomic/alpha": "^2.1.0",
     "glob": "^7.1.2",
     "pkginfo": "^0.4.1",
-    "yargs": "^10.0.3"
+    "yargs": "^17.3.1"
   },
   "publishConfig": {
     "access": "public"
