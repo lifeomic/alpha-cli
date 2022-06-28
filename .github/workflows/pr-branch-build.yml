@@ -15,4 +15,4 @@ jobs:
           node-version: 16
           cache: yarn
       - run: yarn install
-      - run: yarn test
+      - run: yarn test --testTimeout=120000
