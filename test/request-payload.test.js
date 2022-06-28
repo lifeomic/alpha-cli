@@ -8,7 +8,7 @@ test.beforeEach((test) => {
   const app = new Koa();
 
   app.use(bodyParser({
-    enableTypes: [ 'text' ]
+    enableTypes: ['text'],
   }));
 
   app.use((context) => {
@@ -25,7 +25,7 @@ test('The --data-binary flag can be used to specify a request payload', async (t
     '--data-binary', '{"message":"hello"}',
     '--header', 'Content-Type: text/plain',
     '--request', 'POST',
-    test.context.url
+    test.context.url,
   );
 
   test.is(stdout, '{"message":"hello"}');

@@ -12,7 +12,7 @@ test.beforeEach((test) => {
   const app = new Koa();
 
   app.use(bodyParser({
-    enableTypes: [ 'text' ]
+    enableTypes: ['text'],
   }));
 
   app.use((context) => {
@@ -44,7 +44,7 @@ test('The --proxy flag starts a proxy to send commands to alpha', async (test) =
 
     test.deepEqual(
       Object.keys(headers).sort(),
-      [ 'accept', 'connection', 'host', 'test-header', 'user-agent' ]
+      ['accept', 'connection', 'host', 'test-header', 'user-agent'],
     );
     test.is(headers['test-header'], 'header value');
     test.falsy(stderr);
@@ -62,7 +62,7 @@ test('The proxy passes data', async (test) => {
       '--data-binary', '{"message":"hello"}',
       '--header', 'Content-Type: text/plain',
       '--request', 'POST',
-      `http://127.0.0.1:${proxyPort}/dataTest`
+      `http://127.0.0.1:${proxyPort}/dataTest`,
     );
 
     test.is(stdout, '{"message":"hello"}');
@@ -81,7 +81,7 @@ test('The proxy handles errors', async (test) => {
       '--data-binary', '{"message":"hello"}',
       '--header', 'Content-Type: text/plain',
       '--request', 'POST',
-      `http://127.0.0.1:${proxyPort}/derp`
+      `http://127.0.0.1:${proxyPort}/derp`,
     );
     test.regex(stdout, /Error: connect/);
   } finally {

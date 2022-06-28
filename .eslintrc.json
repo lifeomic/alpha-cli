@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "@lifeomic/standards/javascript"
+  ],
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "ignorePatterns": [
+    "work/",
+    "node_modules/",
+    "coverage/"
+  ]
+}

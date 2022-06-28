@@ -1,6 +1,6 @@
 module.exports = (yargs) => {
   yargs.option('data-binary', {
-    describe: 'Send binary data'
+    describe: 'Send binary data',
   });
 
   return (config) => {

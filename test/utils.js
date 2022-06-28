@@ -5,7 +5,7 @@ const util = require('util');
 
 const cli = path.join(__dirname, '../src/cli.js');
 
-function runCommand () {
+const runCommand = () => {
   const args = Array.prototype.slice.call(arguments);
   const command = cli;
 
@@ -24,7 +24,7 @@ function runCommand () {
 
       if (code) {
         const error = new Error(
-          `Command failed: ${command} ${args.join(' ')}\n${errorOutput}`
+          `Command failed: ${command} ${args.join(' ')}\n${errorOutput}`,
         );
         error.stderr = errorOutput;
         error.stdout = output;
@@ -35,13 +35,13 @@ function runCommand () {
 
       resolve({
         stderr: errorOutput,
-        stdout: output
+        stdout: output,
       });
     });
   });
-}
+};
 
-function spawnProxy () {
+const spawnProxy = () => {
   const args = Array.prototype.slice.call(arguments);
   const command = cli;
 
@@ -52,9 +52,9 @@ function spawnProxy () {
       resolve(child);
     });
   });
-}
+};
 
-function createTestServer (test, app) {
+const createTestServer = (test, app) => {
   const server = test.context.server = http.createServer(app.callback());
 
   return new Promise((resolve, reject) => {
@@ -64,16 +64,16 @@ function createTestServer (test, app) {
       resolve();
     });
   });
-}
+};
 
-function destroyTestServer (test) {
+const destroyTestServer = (test) => {
   const stop = util.promisify(test.context.server.close.bind(test.context.server));
   return stop();
-}
+};
 
 module.exports = {
   createTestServer,
   destroyTestServer,
   runCommand,
-  spawnProxy
+  spawnProxy,
 };

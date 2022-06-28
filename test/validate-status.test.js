@@ -8,7 +8,7 @@ test.beforeEach((test) => {
   const app = new Koa();
 
   app.use(bodyParser({
-    enableTypes: [ 'json' ]
+    enableTypes: ['json'],
   }));
 
   app.use((context) => {
@@ -21,20 +21,20 @@ test.beforeEach((test) => {
 
 test.always.afterEach(destroyTestServer);
 
-function requestThatGeneratesCode (test, code) {
+const requestThatGeneratesCode = (test, code) => {
   return runCommand(
     '--validate-status',
     '--data-binary', `{"status":${code}}`,
     '--header', 'Content-Type: application/json',
     '--request', 'POST',
-    test.context.url
+    test.context.url,
   );
-}
+};
 
 test('The --validate-status flag results in command failures with error status codes', async (test) => {
   const result = requestThatGeneratesCode(test, 500);
 
-  await test.throws(result, function (error) {
+  await test.throws(result, (error) => {
     test.truthy(error.stdout === '{}');
     test.truthy(error.stderr === 'The HTTP response code was 500\n');
     test.truthy(error.code === 1);
