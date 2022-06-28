@@ -1,12 +1,12 @@
-const Koa = require('koa');
-const bodyParser = require('koa-bodyparser');
+import Koa from 'koa';
+import bodyParser from 'koa-bodyparser';
 
-const { createTestServer, destroyTestServer, runCommand, spawnProxy, getPort } = require('./utils');
+import { createTestServer, destroyTestServer, runCommand, spawnProxy, getPort, TestContext } from './utils';
 
-let context;
+let context: TestContext;
 
 beforeEach(async () => {
-  context = {};
+  context = {} as TestContext;
   const app = new Koa();
 
   app.use(bodyParser({
@@ -40,7 +40,7 @@ test('The --proxy flag starts a proxy to send commands to alpha', async () => {
 
   try {
     const { stdout, stderr } = await runCommand('-H', 'Test-Header: header value', `http://127.0.0.1:${proxyPort}/headerTest`);
-    const headers = JSON.parse(stdout);
+    const headers = JSON.parse(stdout) as Record<string, string>;
 
     expect(Object.keys(headers).sort()).toEqual(['accept', 'connection', 'host', 'test-header', 'user-agent']);
     expect(headers['test-header']).toBe('header value');
@@ -94,7 +94,7 @@ test('The proxy ends if the user presses a key', async () => {
     process.stdin.write('q\n');
     await new Promise((resolve) => {
       process.on('exit', () => {
-        resolve();
+        resolve(undefined);
       });
     });
     expect(process.exitCode).toBe(0);

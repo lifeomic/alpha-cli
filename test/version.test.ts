@@ -1,4 +1,4 @@
-const { runCommand } = require('./utils');
+import { runCommand } from './utils';
 
 const VERSION_PATTERN = /@lifeomic\/alpha-cli v\d+\.\d+\.\d+\s@lifeomic\/alpha v\d+\.\d+\.\d+/;
 

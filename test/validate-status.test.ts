@@ -1,12 +1,12 @@
-const bodyParser = require('koa-bodyparser');
-const Koa = require('koa');
+import bodyParser from 'koa-bodyparser';
+import Koa from 'koa';
 
-const { createTestServer, destroyTestServer, runCommand } = require('./utils');
+import { createTestServer, destroyTestServer, runCommand, TestContext } from './utils';
 
-let context;
+let context: TestContext;
 
 beforeEach(() => {
-  context = {};
+  context = {} as TestContext;
   const app = new Koa();
 
   app.use(bodyParser({
@@ -25,7 +25,7 @@ afterEach(async () => {
   await destroyTestServer(context);
 });
 
-const requestThatGeneratesCode = (code) => {
+const requestThatGeneratesCode = (code: number) => {
   return runCommand(
     '--validate-status',
     '--data-binary', `{"status":${code}}`,

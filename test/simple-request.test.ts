@@ -1,11 +1,11 @@
-const Koa = require('koa');
+import Koa from 'koa';
 
-const { createTestServer, destroyTestServer, runCommand } = require('./utils');
+import { createTestServer, destroyTestServer, runCommand, TestContext } from './utils';
 
-let context;
+let context: TestContext;
 
 beforeEach(async () => {
-  context = {};
+  context = {} as TestContext;
   const app = new Koa();
 
   app.use((context) => {
