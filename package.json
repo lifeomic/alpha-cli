@@ -15,21 +15,20 @@
     "alpha": "src/cli.js"
   },
   "scripts": {
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint .",
     "pretest": "yarn lint",
-    "test": "nyc ava --verbose"
+    "test": "jest"
   },
   "devDependencies": {
     "@lifeomic/eslint-config-standards": "^2.1.2",
+    "@lifeomic/jest-config": "^1.1.2",
     "@types/node": "^16",
-    "ava": "^0.24.0",
     "conventional-changelog-conventionalcommits": "^4.6.3",
     "coveralls": "^3.0.1",
     "eslint": "^8.18.0",
+    "jest": "^28.1.1",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
-    "nyc": "^12.0.2",
     "semantic-release": "^19.0.2"
   },
   "ava": {

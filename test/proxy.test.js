@@ -1,61 +1,58 @@
 const Koa = require('koa');
-const test = require('ava');
 const bodyParser = require('koa-bodyparser');
 
-const { createTestServer, destroyTestServer, runCommand, spawnProxy } = require('./utils');
+const { createTestServer, destroyTestServer, runCommand, spawnProxy, getPort } = require('./utils');
 
-let testPort = 9802;
+let context;
 
-const getPort = () => testPort++;
-
-test.beforeEach((test) => {
+beforeEach(async () => {
+  context = {};
   const app = new Koa();
 
   app.use(bodyParser({
     enableTypes: ['text'],
   }));
 
-  app.use((context) => {
-    if (context.request.path === '/headerTest') {
-      context.response.body = context.request.headers;
+  app.use((ctx) => {
+    if (ctx.request.path === '/headerTest') {
+      ctx.response.body = ctx.request.headers;
       return;
     }
 
-    if (context.request.path === '/dataTest') {
-      context.response.body = context.request.body;
+    if (ctx.request.path === '/dataTest') {
+      ctx.response.body = ctx.request.body;
       return;
     }
 
-    context.throw(404, 'Not Found');
+    ctx.throw(404, 'Not Found');
   });
 
-  return createTestServer(test, app);
+  await createTestServer(context, app);
 });
 
-test.always.afterEach(destroyTestServer);
+afterEach(async () => {
+  await destroyTestServer(context);
+});
 
-test('The --proxy flag starts a proxy to send commands to alpha', async (test) => {
-  const proxyPort = getPort();
-  const process = await spawnProxy('--proxy', '--proxy-port', proxyPort, test.context.url);
+test('The --proxy flag starts a proxy to send commands to alpha', async () => {
+  const proxyPort = await getPort();
+  const process = await spawnProxy('--proxy', '--proxy-port', proxyPort, context.url);
 
   try {
     const { stdout, stderr } = await runCommand('-H', 'Test-Header: header value', `http://127.0.0.1:${proxyPort}/headerTest`);
     const headers = JSON.parse(stdout);
 
-    test.deepEqual(
-      Object.keys(headers).sort(),
-      ['accept', 'connection', 'host', 'test-header', 'user-agent'],
-    );
-    test.is(headers['test-header'], 'header value');
-    test.falsy(stderr);
+    expect(Object.keys(headers).sort()).toEqual(['accept', 'connection', 'host', 'test-header', 'user-agent']);
+    expect(headers['test-header']).toBe('header value');
+    expect(stderr).toBeFalsy();
   } finally {
     process.kill();
   }
 });
 
-test('The proxy passes data', async (test) => {
-  const proxyPort = getPort();
-  const process = await spawnProxy('--proxy', '--proxy-port', proxyPort, test.context.url);
+test('The proxy passes data', async () => {
+  const proxyPort = await getPort();
+  const process = await spawnProxy('--proxy', '--proxy-port', proxyPort, context.url);
 
   try {
     const { stdout, stderr } = await runCommand(
@@ -65,15 +62,15 @@ test('The proxy passes data', async (test) => {
       `http://127.0.0.1:${proxyPort}/dataTest`,
     );
 
-    test.is(stdout, '{"message":"hello"}');
-    test.falsy(stderr);
+    expect(stdout).toBe('{"message":"hello"}');
+    expect(stderr).toBeFalsy();
   } finally {
     process.kill();
   }
 });
 
-test('The proxy handles errors', async (test) => {
-  const proxyPort = getPort();
+test('The proxy handles errors', async () => {
+  const proxyPort = await getPort();
 
   const process = await spawnProxy('--proxy', '--proxy-port', proxyPort, 'https://localhost:0/');
   try {
@@ -83,14 +80,14 @@ test('The proxy handles errors', async (test) => {
       '--request', 'POST',
       `http://127.0.0.1:${proxyPort}/derp`,
     );
-    test.regex(stdout, /Error: connect/);
+    expect(stdout).toMatch(/Error: connect/);
   } finally {
     process.kill();
   }
 });
 
-test('The proxy ends if the user presses a key', async (test) => {
-  const proxyPort = getPort();
+test('The proxy ends if the user presses a key', async () => {
+  const proxyPort = await getPort();
 
   const process = await spawnProxy('--proxy', '--proxy-port', proxyPort, `http://127.0.0.1:${proxyPort}/headerTest`);
   try {
@@ -100,7 +97,7 @@ test('The proxy ends if the user presses a key', async (test) => {
         resolve();
       });
     });
-    test.is(process.exitCode, 0);
+    expect(process.exitCode).toBe(0);
   } finally {
     process.kill();
   }

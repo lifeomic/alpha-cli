@@ -1,10 +1,12 @@
 const bodyParser = require('koa-bodyparser');
 const Koa = require('koa');
-const test = require('ava');
 
 const { createTestServer, destroyTestServer, runCommand } = require('./utils');
 
-test.beforeEach((test) => {
+let context;
+
+beforeEach(async () => {
+  context = {};
   const app = new Koa();
 
   app.use(bodyParser({
@@ -15,19 +17,21 @@ test.beforeEach((test) => {
     context.response.body = context.request.body;
   });
 
-  return createTestServer(test, app);
+  await createTestServer(context, app);
 });
 
-test.always.afterEach(destroyTestServer);
+afterEach(async () => {
+  await destroyTestServer(context);
+});
 
-test('The --data-binary flag can be used to specify a request payload', async (test) => {
+test('The --data-binary flag can be used to specify a request payload', async () => {
   const { stdout, stderr } = await runCommand(
     '--data-binary', '{"message":"hello"}',
     '--header', 'Content-Type: text/plain',
     '--request', 'POST',
-    test.context.url,
+    context.url,
   );
 
-  test.is(stdout, '{"message":"hello"}');
-  test.falsy(stderr);
+  expect(stdout).toBe('{"message":"hello"}');
+  expect(stderr).toBeFalsy();
 });

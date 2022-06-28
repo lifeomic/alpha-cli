@@ -1,102 +1,90 @@
 const Koa = require('koa');
-const test = require('ava');
 
 const { createTestServer, destroyTestServer, runCommand } = require('./utils');
 
-test.beforeEach((test) => {
+let context;
+
+beforeEach(async () => {
+  context = {};
   const app = new Koa();
 
   app.use((context) => {
     context.response.body = context.request.headers;
   });
 
-  return createTestServer(test, app);
+  await createTestServer(context, app);
 });
 
-test.always.afterEach(destroyTestServer);
+afterEach(async () => {
+  await destroyTestServer(context);
+});
 
-test('The -H flag can be used to specify a request header', async (test) => {
-  const { stdout, stderr } = await runCommand('-H', 'Test-Header: header value', test.context.url);
+test('The -H flag can be used to specify a request header', async () => {
+  const { stdout, stderr } = await runCommand('-H', 'Test-Header: header value', context.url);
   const headers = JSON.parse(stdout);
 
-  test.deepEqual(
-    Object.keys(headers).sort(),
-    ['accept', 'connection', 'host', 'test-header', 'user-agent'],
-  );
-  test.is(headers['test-header'], 'header value');
-  test.falsy(stderr);
+  expect(Object.keys(headers).sort()).toEqual(['accept', 'connection', 'host', 'test-header', 'user-agent']);
+  expect(headers['test-header']).toBe('header value');
+  expect(stderr).toBeFalsy();
 });
 
-test('The --header flag can be used to specify a request header', async (test) => {
-  const { stdout, stderr } = await runCommand('--header', 'Test-Header: header value', test.context.url);
+test('The --header flag can be used to specify a request header', async () => {
+  const { stdout, stderr } = await runCommand('--header', 'Test-Header: header value', context.url);
   const headers = JSON.parse(stdout);
 
-  test.deepEqual(
-    Object.keys(headers).sort(),
-    ['accept', 'connection', 'host', 'test-header', 'user-agent'],
-  );
-  test.is(headers['test-header'], 'header value');
-  test.falsy(stderr);
+  expect(Object.keys(headers).sort()).toEqual(['accept', 'connection', 'host', 'test-header', 'user-agent']);
+  expect(headers['test-header']).toBe('header value');
+  expect(stderr).toBeFalsy();
 });
 
-test('Specifying multiple request headers adds all the headers to the request', async (test) => {
+test('Specifying multiple request headers adds all the headers to the request', async () => {
   const { stdout, stderr } = await runCommand(
     '-H', 'First-Header: one',
     '-H', 'Second-Header: two',
-    test.context.url,
+    context.url,
   );
 
   const headers = JSON.parse(stdout);
 
-  test.deepEqual(
-    Object.keys(headers).sort(),
+  expect(Object.keys(headers).sort()).toEqual(
     ['accept', 'connection', 'first-header', 'host', 'second-header', 'user-agent'],
   );
-  test.is(headers['first-header'], 'one');
-  test.is(headers['second-header'], 'two');
-  test.falsy(stderr);
+  expect(headers['first-header']).toBe('one');
+  expect(headers['second-header']).toBe('two');
+  expect(stderr).toBeFalsy();
 });
 
-test('Specifying the same header multiple times uses the last instance', async (test) => {
+test('Specifying the same header multiple times uses the last instance', async () => {
   const { stdout, stderr } = await runCommand(
     '-H', 'Test-Header: one',
     '-H', 'Test-Header: two',
-    test.context.url,
+    context.url,
   );
 
   const headers = JSON.parse(stdout);
 
-  test.deepEqual(
-    Object.keys(headers).sort(),
-    ['accept', 'connection', 'host', 'test-header', 'user-agent'],
-  );
-  test.is(headers['test-header'], 'two');
-  test.falsy(stderr);
+  expect(Object.keys(headers).sort()).toEqual(['accept', 'connection', 'host', 'test-header', 'user-agent']);
+  expect(headers['test-header']).toBe('two');
+  expect(stderr).toBeFalsy();
 });
 
-test('Specifying an empty header deletes the header from the request', async (test) => {
+test('Specifying an empty header deletes the header from the request', async () => {
   const { stdout, stderr } = await runCommand(
     '-H', 'Test-Header: foo',
     '-H', 'Test-Header:',
-    test.context.url,
+    context.url,
   );
 
   const headers = JSON.parse(stdout);
 
-  test.deepEqual(
-    Object.keys(headers).sort(),
-    ['accept', 'connection', 'host', 'user-agent'],
-  );
-  test.falsy(stderr);
+  expect(Object.keys(headers).sort()).toEqual(['accept', 'connection', 'host', 'user-agent']);
+  expect(stderr).toBeFalsy();
 });
 
-test('Malformed request headers are ignored', async (test) => {
-  const { stdout, stderr } = await runCommand('-H', 'foo', test.context.url);
+test('Malformed request headers are ignored', async () => {
+  const { stdout, stderr } = await runCommand('-H', 'foo', context.url);
   const headers = JSON.parse(stdout);
 
-  test.deepEqual(
-    Object.keys(headers).sort(),
-    ['accept', 'connection', 'host', 'user-agent'],
-  );
-  test.falsy(stderr);
+  expect(Object.keys(headers).sort()).toEqual(['accept', 'connection', 'host', 'user-agent']);
+  expect(stderr).toBeFalsy();
 });

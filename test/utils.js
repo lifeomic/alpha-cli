@@ -2,11 +2,11 @@ const http = require('http');
 const path = require('path');
 const { spawn } = require('child_process');
 const util = require('util');
+const net = require('net');
 
 const cli = path.join(__dirname, '../src/cli.js');
 
-const runCommand = () => {
-  const args = Array.prototype.slice.call(arguments);
+const runCommand = (...args) => {
   const command = cli;
 
   return new Promise((resolve, reject) => {
@@ -41,8 +41,7 @@ const runCommand = () => {
   });
 };
 
-const spawnProxy = () => {
-  const args = Array.prototype.slice.call(arguments);
+const spawnProxy = (...args) => {
   const command = cli;
 
   return new Promise((resolve) => {
@@ -54,21 +53,37 @@ const spawnProxy = () => {
   });
 };
 
-const createTestServer = (test, app) => {
-  const server = test.context.server = http.createServer(app.callback());
+const createTestServer = (context, app) => {
+  const server = context.server = http.createServer(app.callback());
 
   return new Promise((resolve, reject) => {
     server.once('error', reject);
     server.listen(() => {
-      test.context.url = `http://localhost:${server.address().port}`;
+      context.url = `http://localhost:${server.address().port}`;
       resolve();
     });
   });
 };
 
-const destroyTestServer = (test) => {
-  const stop = util.promisify(test.context.server.close.bind(test.context.server));
+const destroyTestServer = (context) => {
+  const stop = util.promisify(context.server.close.bind(context.server));
   return stop();
+};
+
+const getPort = async () => {
+  return await new Promise((resolve, reject) => {
+    try {
+      const srv = net.createServer(() => {
+      });
+      srv.listen(0, () => {
+        const { port } = srv.address();
+        srv.close((err) => reject(err));
+        return resolve(`${port}`);
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
 };
 
 module.exports = {
@@ -76,4 +91,5 @@ module.exports = {
   destroyTestServer,
   runCommand,
   spawnProxy,
+  getPort,
 };
