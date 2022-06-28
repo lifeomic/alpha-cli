@@ -1,7 +1,7 @@
 module.exports = (yargs) => {
   yargs.option('X', {
     alias: 'request',
-    describe: 'Specify the request method to use'
+    describe: 'Specify the request method to use',
   });
 
   return (config) => {

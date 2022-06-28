@@ -2,11 +2,11 @@ const http = require('http');
 const path = require('path');
 const { spawn } = require('child_process');
 const util = require('util');
+const net = require('net');
 
 const cli = path.join(__dirname, '../src/cli.js');
 
-function runCommand () {
-  const args = Array.prototype.slice.call(arguments);
+const runCommand = (...args) => {
   const command = cli;
 
   return new Promise((resolve, reject) => {
@@ -24,7 +24,7 @@ function runCommand () {
 
       if (code) {
         const error = new Error(
-          `Command failed: ${command} ${args.join(' ')}\n${errorOutput}`
+          `Command failed: ${command} ${args.join(' ')}\n${errorOutput}`,
         );
         error.stderr = errorOutput;
         error.stdout = output;
@@ -35,14 +35,13 @@ function runCommand () {
 
       resolve({
         stderr: errorOutput,
-        stdout: output
+        stdout: output,
       });
     });
   });
-}
+};
 
-function spawnProxy () {
-  const args = Array.prototype.slice.call(arguments);
+const spawnProxy = (...args) => {
   const command = cli;
 
   return new Promise((resolve) => {
@@ -52,28 +51,45 @@ function spawnProxy () {
       resolve(child);
     });
   });
-}
+};
 
-function createTestServer (test, app) {
-  const server = test.context.server = http.createServer(app.callback());
+const createTestServer = (context, app) => {
+  const server = context.server = http.createServer(app.callback());
 
   return new Promise((resolve, reject) => {
     server.once('error', reject);
     server.listen(() => {
-      test.context.url = `http://localhost:${server.address().port}`;
+      context.url = `http://localhost:${server.address().port}`;
       resolve();
     });
   });
-}
+};
 
-function destroyTestServer (test) {
-  const stop = util.promisify(test.context.server.close.bind(test.context.server));
+const destroyTestServer = (context) => {
+  const stop = util.promisify(context.server.close.bind(context.server));
   return stop();
-}
+};
+
+const getPort = async () => {
+  return await new Promise((resolve, reject) => {
+    try {
+      const srv = net.createServer(() => {
+      });
+      srv.listen(0, () => {
+        const { port } = srv.address();
+        srv.close((err) => reject(err));
+        return resolve(`${port}`);
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 
 module.exports = {
   createTestServer,
   destroyTestServer,
   runCommand,
-  spawnProxy
+  spawnProxy,
+  getPort,
 };

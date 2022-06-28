@@ -13,7 +13,7 @@ const plugins = glob.sync(path.join(__dirname, 'plugins/*.js'))
 const config = {
   transformResponse: [(data) => data],
   validateStatus: false,
-  responsePostProcessors: []
+  responsePostProcessors: [],
 };
 
 const skipRequest = plugins.some((execute) => execute(config));
@@ -22,7 +22,7 @@ const callAlpha = async (config) => {
   const client = new Alpha();
   const response = await client.request(config);
 
-  const processedResponse = config.responsePostProcessors.reduce(function (reduce, processor) {
+  const processedResponse = config.responsePostProcessors.reduce((reduce, processor) => {
     return processor(reduce);
   }, response);
 

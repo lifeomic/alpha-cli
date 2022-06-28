@@ -1,7 +1,7 @@
 module.exports = (yargs) => {
   yargs.option('H', {
     alias: 'header',
-    describe: 'Pass custom header line to server'
+    describe: 'Pass custom header line to server',
   });
 
   return (config) => {
@@ -23,17 +23,15 @@ module.exports = (yargs) => {
             // This object is simply used to serialize headers on the client
             // request. The risk of arbitrary attribute injection here should
             // be marginal.
-            // eslint-disable-next-line security/detect-object-injection
             headers[key] = value;
           } else {
             // Same as above.
-            // eslint-disable-next-line security/detect-object-injection
             delete headers[key];
           }
 
           return headers;
         },
-        {}
+        {},
       );
     }
   };

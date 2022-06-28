@@ -9,10 +9,10 @@ module.exports = (yargs) => {
     .option('V', {
       alias: 'version',
       describe: 'Show the version number and quit',
-      type: 'boolean'
+      type: 'boolean',
     });
 
-  return (config) => {
+  return () => {
     if (yargs.argv.version) {
       console.log(`${metadata.name} v${metadata.version}`);
       console.log(`${alpha.name} v${alpha.version}`);

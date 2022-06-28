@@ -9,13 +9,13 @@ const alphaProxy = (baseConfig, callback) => {
       url: baseConfig.url + url,
       headers: {
         ...baseConfig.headers,
-        ...req.headers
-      }
+        ...req.headers,
+      },
     };
 
     let data = '';
 
-    req.on('data', chunk => {
+    req.on('data', (chunk) => {
       data += chunk;
     });
 
