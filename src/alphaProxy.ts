@@ -1,21 +1,23 @@
-const { createServer } = require('http');
+import { createServer } from 'http';
+import { Config } from './types';
+import { callAlpha } from './utils';
 
-const alphaProxy = (baseConfig, callback) => {
+export const alphaProxy = (baseConfig: Config) => {
   return createServer((req, response) => {
     const { method, url } = req;
-    const requestConfig = {
+    const requestConfig: Config = {
       ...baseConfig,
-      method,
-      url: baseConfig.url + url,
+      method: method as Config['method'],
+      url: `${baseConfig.url as string}${url as string}`,
       headers: {
         ...baseConfig.headers,
-        ...req.headers,
+        ...req.headers as Record<string, string>,
       },
     };
 
     let data = '';
 
-    req.on('data', (chunk) => {
+    req.on('data', (chunk: string) => {
       data += chunk;
     });
 
@@ -23,7 +25,7 @@ const alphaProxy = (baseConfig, callback) => {
       if (data) {
         requestConfig.data = data;
       }
-      callback(requestConfig).then((result) => {
+      callAlpha(requestConfig).then((result) => {
         response.statusCode = result.status;
         response.write(result.data);
         response.end();
@@ -34,5 +36,3 @@ const alphaProxy = (baseConfig, callback) => {
     });
   }).listen(baseConfig.proxyPort, 'localhost');
 };
-
-module.exports = alphaProxy;

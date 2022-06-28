@@ -14,14 +14,11 @@ jobs:
       NPM_TOKEN: ${{ secrets.LIFEOMIC_NPM_TOKEN }}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
-          node-version: 14
-      - name: Test
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-          yarn install --frozen-lockfile
-          yarn test
-      - name: Publish
-        run: |
-          yarn semantic-release
+          node-version: 16
+          cache: yarn
+      - run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+      - run: yarn install --frozen-lockfile
+      - run: yarn test --testTimeout=120000 --maxWorkers=50%
+      - run: yarn semantic-release
