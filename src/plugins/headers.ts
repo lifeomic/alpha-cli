@@ -1,5 +1,5 @@
 import type { Argv } from 'yargs';
-import { Config, Arguments } from '../types';
+import { AlphaCliConfig, AlphaCliArguments } from '../types';
 
 export const parseLine = (headers: Record<string, string>, line: string) => {
   const [untrimmedKey, untrimmedValue] = line.split(':');
@@ -30,7 +30,7 @@ export default (yargs: Argv) => {
     describe: 'Pass custom header line to server',
   });
 
-  return (config: Config, { header }: Arguments) => {
+  return (config: AlphaCliConfig, { header }: AlphaCliArguments) => {
     if (!header) {
       return;
     }

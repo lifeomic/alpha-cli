@@ -1,5 +1,5 @@
 import { Argv } from 'yargs';
-import { Arguments, Config } from '../types';
+import { AlphaCliArguments, AlphaCliConfig } from '../types';
 
 export default (yargs: Argv) => {
   yargs.option('X', {
@@ -7,7 +7,7 @@ export default (yargs: Argv) => {
     describe: 'Specify the request method to use',
   });
 
-  return (config: Config, { request }: Arguments) => {
+  return (config: AlphaCliConfig, { request }: AlphaCliArguments) => {
     if (request) {
       config.method = request;
     }

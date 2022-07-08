@@ -1,14 +1,14 @@
 import { AlphaOptions, AlphaResponse } from '@lifeomic/alpha';
 
-export interface Config extends AlphaOptions<string> {
+export interface AlphaCliConfig extends AlphaOptions<string> {
   responsePostProcessors: ((data: AlphaResponse<string>) => AlphaResponse<string>)[];
   proxied?: boolean;
   proxyPort?: number;
 }
 
-export interface Arguments {
+export interface AlphaCliArguments {
   header?: string;
-  request?: Config['method'];
+  request?: AlphaCliConfig['method'];
   'data-binary'?: any;
   proxy?: boolean;
   'proxy-port'?: number;

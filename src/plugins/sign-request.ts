@@ -1,6 +1,6 @@
 import { Argv } from 'yargs';
 import { STS } from '@aws-sdk/client-sts';
-import { Arguments, Config } from '../types';
+import { AlphaCliArguments, AlphaCliConfig } from '../types';
 
 export default (yargs: Argv) => {
   yargs.option('sign', {
@@ -13,9 +13,9 @@ export default (yargs: Argv) => {
       describe: 'Role to assume when signing',
     });
 
-  return (config: Config, { sign, role }: Arguments) => {
+  return (config: AlphaCliConfig, { sign, role }: AlphaCliArguments) => {
     if (!sign) {
-      return config;
+      return;
     }
     config.signAwsV4 = {};
     if (role) {

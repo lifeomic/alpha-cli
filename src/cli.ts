@@ -5,10 +5,10 @@ import path from 'path';
 import yargs from 'yargs';
 import { ValidationError } from './ValidationError';
 import { alphaProxy } from './alphaProxy';
-import { Config } from './types';
+import { AlphaCliConfig } from './types';
 import { callAlpha } from './utils';
 
-const config: Config = {
+const config: AlphaCliConfig = {
   transformResponse: [(data) => data],
   validateStatus: () => true,
   responsePostProcessors: [],

@@ -1,7 +1,7 @@
-import { Arguments, Config } from '../types';
+import { AlphaCliArguments, AlphaCliConfig } from '../types';
 
 export default () => {
-  return (config: Config, args: Arguments) => {
+  return (config: AlphaCliConfig, args: AlphaCliArguments) => {
     if (args._.length) {
       config.url = args._[0];
     }

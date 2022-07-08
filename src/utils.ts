@@ -1,7 +1,7 @@
-import { Config } from './types';
+import { AlphaCliConfig } from './types';
 import { Alpha } from '@lifeomic/alpha';
 
-export const callAlpha = async (config: Config) => {
+export const callAlpha = async (config: AlphaCliConfig) => {
   const client = new Alpha();
   const response = await client.request<string>(config);
 
