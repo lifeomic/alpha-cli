@@ -1,8 +1,7 @@
-import { AxiosRequestConfig } from 'axios';
-import { AxiosResponse } from '@lifeomic/alpha';
+import { AlphaOptions, AlphaResponse } from '@lifeomic/alpha';
 
-export interface Config extends AxiosRequestConfig<string> {
-  responsePostProcessors: ((data: AxiosResponse<string>) => AxiosResponse<string>)[];
+export interface Config extends AlphaOptions<string> {
+  responsePostProcessors: ((data: AlphaResponse<string>) => AlphaResponse<string>)[];
   proxied?: boolean;
   proxyPort?: number;
 }
@@ -15,5 +14,7 @@ export interface Arguments {
   'proxy-port'?: number;
   'validate-status'?: boolean;
   version?: boolean;
+  sign?: boolean;
+  role?: string;
   _: string[];
 }

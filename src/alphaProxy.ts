@@ -5,6 +5,8 @@ import { callAlpha } from './utils';
 export const alphaProxy = (baseConfig: Config) => {
   return createServer((req, response) => {
     const { method, url } = req;
+    delete req.headers.host;
+    delete req.headers.Host;
     const requestConfig: Config = {
       ...baseConfig,
       method: method as Config['method'],
