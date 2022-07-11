@@ -1,13 +1,15 @@
 import { createServer } from 'http';
-import { Config } from './types';
+import { AlphaCliConfig } from './types';
 import { callAlpha } from './utils';
 
-export const alphaProxy = (baseConfig: Config) => {
+export const alphaProxy = (baseConfig: AlphaCliConfig) => {
   return createServer((req, response) => {
     const { method, url } = req;
-    const requestConfig: Config = {
+    delete req.headers.host;
+    delete req.headers.Host;
+    const requestConfig: AlphaCliConfig = {
       ...baseConfig,
-      method: method as Config['method'],
+      method: method as AlphaCliConfig['method'],
       url: `${baseConfig.url as string}${url as string}`,
       headers: {
         ...baseConfig.headers,

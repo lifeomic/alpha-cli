@@ -1,7 +1,7 @@
 import { Argv } from 'yargs';
 
 import { ValidationError } from '../ValidationError';
-import { Arguments, Config } from '../types';
+import { AlphaCliArguments, AlphaCliConfig } from '../types';
 
 export default (yargs: Argv) => {
   yargs.option('validate-status', {
@@ -10,7 +10,7 @@ export default (yargs: Argv) => {
     describe: 'Validate the HTTP response code and fail if not 2XX',
   });
 
-  return (config: Config, args: Arguments) => {
+  return (config: AlphaCliConfig, args: AlphaCliArguments) => {
     if (args['validate-status']) {
       config.responsePostProcessors.push((response) => {
         if (response.status < 200 || response.status >= 300) {

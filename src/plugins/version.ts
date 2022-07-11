@@ -1,4 +1,4 @@
-import { Arguments, Config } from '../types';
+import { AlphaCliArguments, AlphaCliConfig } from '../types';
 import { Argv } from 'yargs';
 
 import metadata from '../../package.json';
@@ -12,7 +12,7 @@ export default (yargs: Argv) => {
       type: 'boolean',
     });
 
-  return (config: Config, args: Arguments) => {
+  return (config: AlphaCliConfig, args: AlphaCliArguments) => {
     if (args.version) {
       console.log(`${metadata.name} v${metadata.version}`);
       console.log(`${alphaMetadata.name} v${alphaMetadata.version}`);

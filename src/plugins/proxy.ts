@@ -1,4 +1,4 @@
-import { Arguments, Config } from '../types';
+import { AlphaCliArguments, AlphaCliConfig } from '../types';
 import { Argv } from 'yargs';
 
 export default (yargs: Argv) => {
@@ -8,7 +8,7 @@ export default (yargs: Argv) => {
     describe: 'http proxy requests to alpha',
   });
 
-  return (config: Config, args: Arguments) => {
+  return (config: AlphaCliConfig, args: AlphaCliArguments) => {
     if (args.proxy) {
       config.proxied = true;
     }

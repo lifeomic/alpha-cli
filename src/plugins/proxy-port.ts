@@ -1,5 +1,5 @@
 import { Argv } from 'yargs';
-import { Arguments, Config } from '../types';
+import { AlphaCliArguments, AlphaCliConfig } from '../types';
 
 export default (yargs: Argv) => {
   yargs.option('proxy-port', {
@@ -8,7 +8,7 @@ export default (yargs: Argv) => {
     default: 9000,
   });
 
-  return (config: Config, args: Arguments) => {
+  return (config: AlphaCliConfig, args: AlphaCliArguments) => {
     config.proxyPort = args['proxy-port'];
   };
 };
