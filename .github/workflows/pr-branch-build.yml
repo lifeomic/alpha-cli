@@ -1,9 +1,7 @@
 name: PR Branch Build and Test
 
 on:
-  push:
-    branches-ignore:
-      - master
+  pull_request
 
 jobs:
   build:
