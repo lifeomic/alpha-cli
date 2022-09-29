@@ -20,7 +20,7 @@ describe.each([
     const process = await spawnProxy('--proxy', '--proxy-port', proxyPort, '--lambda-handler', filePath);
 
     try {
-      const { stdout, stderr } = await runCommand(`http://127.0.0.1:${proxyPort}/echo/${param}`);
+      const { stdout, stderr } = await runCommand(`http://localhost:${proxyPort}/echo/${param}`);
 
       expect(stdout).toBe(param);
       expect(stderr).toBeFalsy();

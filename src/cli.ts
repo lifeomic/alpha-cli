@@ -7,6 +7,7 @@ import { ValidationError } from './ValidationError';
 import { alphaProxy } from './alphaProxy';
 import { AlphaCliConfig } from './types';
 import { callAlpha } from './utils';
+import { AddressInfo } from 'net';
 
 const config: AlphaCliConfig = {
   transformResponse: [(data) => data],
@@ -32,13 +33,13 @@ const run = async () => {
 
   const {
     proxied,
-    proxyPort,
   } = config;
 
   if (proxied) {
-    alphaProxy(config).on('listening', () => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      console.log(`Proxy is listening on port ${proxyPort!}; Press any key to quit;`);
+    const srv = alphaProxy(config);
+    srv.on('listening', () => {
+      const { address, port } = srv.address() as AddressInfo;
+      console.log(`Proxy is listening on port ${address}:${port}; Press any key to quit;`);
     });
 
     // These are only relevant in a terminal, not in tests

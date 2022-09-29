@@ -39,7 +39,7 @@ test('The --proxy flag starts a proxy to send commands to alpha', async () => {
   const process = await spawnProxy('--proxy', '--proxy-port', proxyPort, context.url);
 
   try {
-    const { stdout, stderr } = await runCommand('-H', 'Test-Header: header value', `http://127.0.0.1:${proxyPort}/headerTest`);
+    const { stdout, stderr } = await runCommand('-H', 'Test-Header: header value', `http://localhost:${proxyPort}/headerTest`);
     const headers = JSON.parse(stdout) as Record<string, string>;
 
     expect(Object.keys(headers).sort()).toEqual(['accept', 'connection', 'host', 'test-header', 'user-agent']);
@@ -59,7 +59,7 @@ test('The proxy passes data', async () => {
       '--data-binary', '{"message":"hello"}',
       '--header', 'Content-Type: text/plain',
       '--request', 'POST',
-      `http://127.0.0.1:${proxyPort}/dataTest`,
+      `http://localhost:${proxyPort}/dataTest`,
     );
 
     expect(stdout).toBe('{"message":"hello"}');
@@ -78,7 +78,7 @@ test('The proxy handles errors', async () => {
       '--data-binary', '{"message":"hello"}',
       '--header', 'Content-Type: text/plain',
       '--request', 'POST',
-      `http://127.0.0.1:${proxyPort}/derp`,
+      `http://localhost:${proxyPort}/derp`,
     );
     expect(stdout).toMatch(/Error: connect/);
   } finally {
@@ -89,7 +89,7 @@ test('The proxy handles errors', async () => {
 test('The proxy ends if the user presses a key', async () => {
   const proxyPort = await getPort();
 
-  const process = await spawnProxy('--proxy', '--proxy-port', proxyPort, `http://127.0.0.1:${proxyPort}/headerTest`);
+  const process = await spawnProxy('--proxy', '--proxy-port', proxyPort, `http://localhost:${proxyPort}/headerTest`);
   try {
     process.stdin.write('q\n');
     await new Promise((resolve) => {
