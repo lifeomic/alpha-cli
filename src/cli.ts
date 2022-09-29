@@ -23,7 +23,12 @@ const run = async () => {
 
   const args = await yargs.parse();
 
-  const skipRequest = plugins.some((execute) => execute(config, args));
+  const results: any[] = [];
+  for (const plugin of plugins) {
+    results.push(await plugin(config, args));
+  }
+
+  const skipRequest = results.some((next) => next);
 
   const {
     proxied,

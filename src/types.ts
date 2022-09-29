@@ -12,6 +12,8 @@ export interface AlphaCliArguments {
   'data-binary'?: any;
   proxy?: boolean;
   'proxy-port'?: number;
+  'lambda-handler'?: string;
+  'env-file'?: string;
   'validate-status'?: boolean;
   version?: boolean;
   sign?: boolean;
