@@ -1290,9 +1290,9 @@
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
 "@lifeomic/alpha@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@lifeomic/alpha/-/alpha-5.1.0.tgz#858d7dab94c3250825618cf18c88de1dc90a3d8a"
-  integrity sha512-GQCDSXz3q2mtbtxa7pYwo7prmxI4l5Uv2kjwDP8LtaiUsvOftgeqmiKaQpfZQouK/SGhsN8PgVWE6/EP22BOog==
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@lifeomic/alpha/-/alpha-5.1.1.tgz#87fd0ea0f3fe36b3d5e68ff616c005d78adc8cb2"
+  integrity sha512-h24Db5ryu3pcEeidzNFpwrzqOXz9qj0gziWofy3n41o2zWlNRVCYeoiFUEjJZqzfyQ2tkrWg9vxmdgnT2X6daA==
   dependencies:
     "@aws-crypto/sha256-browser" "^2.0.1"
     "@aws-sdk/abort-controller" "^3.110.0"
