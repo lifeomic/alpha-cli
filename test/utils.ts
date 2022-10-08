@@ -56,11 +56,12 @@ export const spawnProxy = (...args: string[]): Promise<ChildProcessWithoutNullSt
   return new Promise((resolve, reject) => {
     const child = spawnCli(args);
 
-    child.stdout.on('data', () => {
+    child.stdout.once('data', () => {
       resolve(child);
     });
     child.once('error', reject);
-    child.stderr.on('data', (chunk: Buffer) => console.log(Buffer.from(chunk).toString('utf-8')));
+    child.stderr.on('data', (chunk: Buffer) => console.error(Buffer.from(chunk).toString('utf-8')));
+    child.stdout.on('data', (chunk: Buffer) => console.log(Buffer.from(chunk).toString('utf-8')));
   });
 };
 
@@ -87,10 +88,15 @@ export const getPort = async (): Promise<string> => {
     try {
       const srv = net.createServer(() => {
       });
-      srv.listen(0, () => {
+      srv.listen(0, 'localhost', () => {
         const { port } = (srv.address() as net.AddressInfo);
-        srv.close((err) => reject(err));
-        return resolve(`${port}`);
+        srv.close((err) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(`${port}`);
+          }
+        });
       });
     } catch (e) {
       reject(e);

@@ -17,15 +17,22 @@ $ npm install -g @lifeomic/alpha-cli
 ```bash
 $ alpha --help
 Options:
-  --help         Show help                                             [boolean]
-  -H, --header   Pass custom header line to server
-  -X, --request  Specify the request method to use
-  --data-binary  Send binary data
-  --proxy        Run a local http proxy that passes requests to alpha
-  --proxy-port   The port to run the http proxy on
-  -V, --version  Show the version number and quit                      [boolean]
-  --sign         Sign requests using aws SignatureV4                   [boolean]
-  --role         Use STS to assume a role when signing
+      --help             Show help                                     [boolean]
+  -H, --header           Pass custom header line to server              [string]
+      --lambda-handler   A javascript/typescript lambda handler to send requests
+                         to                                             [string]
+      --env-file         File to load as environment variables when importing
+                         lambda                                         [string]
+  -X, --request          Specify the request method to use
+      --data-binary      Send binary data
+      --proxy-port       port to proxy requests on      [number] [default: 9000]
+      --proxy            http proxy requests to alpha [boolean] [default: false]
+      --sign             Sign requests with AWS SignatureV4
+                                                      [boolean] [default: false]
+      --role             Role to assume when signing                    [string]
+      --validate-status  Validate the HTTP response code and fail if not 2XX
+                                                      [boolean] [default: false]
+  -V, --version          Show the version number and quit              [boolean]
 
 $ alpha lambda://user-service/users/jagoda | jq
 {

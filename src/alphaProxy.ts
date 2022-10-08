@@ -16,6 +16,9 @@ export const alphaProxy = (baseConfig: AlphaCliConfig) => {
         ...req.headers as Record<string, string>,
       },
     };
+    if (requestConfig.lambda) {
+      requestConfig.url = url;
+    }
 
     let data = '';
 
