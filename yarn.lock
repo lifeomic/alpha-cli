@@ -1300,9 +1300,9 @@
     path-to-regexp "^6.2.1"
 
 "@lifeomic/alpha@^5.1.0":
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/@lifeomic/alpha/-/alpha-5.1.1.tgz#87fd0ea0f3fe36b3d5e68ff616c005d78adc8cb2"
-  integrity sha512-h24Db5ryu3pcEeidzNFpwrzqOXz9qj0gziWofy3n41o2zWlNRVCYeoiFUEjJZqzfyQ2tkrWg9vxmdgnT2X6daA==
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/@lifeomic/alpha/-/alpha-5.1.2.tgz#6ff355cf04712ca9ce70d4b007a529b6446386ab"
+  integrity sha512-HWg22faxR6Gd0h8ennN1LOHHZT0lka3CHsCo27GUOorEoabZ9PWgxQyVRy1ay1zt+EsxMmb0goYX0Z8WjtDFjg==
   dependencies:
     "@aws-crypto/sha256-browser" "^2.0.1"
     "@aws-sdk/abort-controller" "^3.110.0"
