@@ -10,7 +10,7 @@ export const alphaProxy = (baseConfig: AlphaCliConfig) => {
     const requestConfig: AlphaCliConfig = {
       ...baseConfig,
       method: method as AlphaCliConfig['method'],
-      url: `${baseConfig.url as string}${url as string}`,
+      url: `${baseConfig.url ?? ''}${url as string}`,
       headers: {
         ...baseConfig.headers,
         ...req.headers as Record<string, string>,

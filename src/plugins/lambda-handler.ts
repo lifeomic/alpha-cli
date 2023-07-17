@@ -44,7 +44,7 @@ export default (yargs: Argv) => {
         await loadEnvFile(envFile);
       }
       const exported = await import(lambdaHandler);
-      config.lambda = exported.handler || exported.default.handler;
+      config.handler = exported.handler || exported.default.handler;
     }
   };
 };

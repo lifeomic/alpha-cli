@@ -1,5 +1,5 @@
 import yargs from 'yargs';
-import { Credentials, Provider } from '@aws-sdk/types';
+import { AwsCredentialIdentity, Provider } from '@aws-sdk/types';
 import { AssumeRoleCommand, STSClient } from '@aws-sdk/client-sts';
 import { mockClient } from 'aws-sdk-client-mock';
 
@@ -18,7 +18,7 @@ const getConfig = async (...args: string[]) => {
 
 const mockSts = mockClient(STSClient);
 
-const expectedCreds: Credentials = {
+const expectedCreds: AwsCredentialIdentity = {
   accessKeyId: randomUUID(),
   secretAccessKey: randomUUID(),
   sessionToken: randomUUID(),
@@ -53,7 +53,7 @@ test('will set up using sts to assume a role', async () => {
   const role = 'some-stinky-role';
   const config = await getConfig('--sign', '--role', role);
   expect(config).toHaveProperty('signAwsV4', { credentials: expect.any(Function) });
-  const { credentials } = config.signAwsV4 as { credentials: Provider<Credentials>; };
+  const { credentials } = config.signAwsV4 as { credentials: Provider<AwsCredentialIdentity>; };
 
   await expect(credentials()).resolves.toEqual(expectedCreds);
   expect(mockSts.commandCalls(AssumeRoleCommand)).toHaveLength(1);
@@ -68,7 +68,7 @@ test('will throw exception if Credentials is empty', async () => {
   const role = 'some-stinky-role';
   const config = await getConfig('--sign', '--role', role);
   expect(config).toHaveProperty('signAwsV4', { credentials: expect.any(Function) });
-  const { credentials } = config.signAwsV4 as { credentials: Provider<Credentials>; };
+  const { credentials } = config.signAwsV4 as { credentials: Provider<AwsCredentialIdentity>; };
 
   await expect(credentials()).rejects.toThrowError(`Unable to assume role ${role}`);
 });

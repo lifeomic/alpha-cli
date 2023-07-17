@@ -1,9 +1,11 @@
+import { Handler } from 'aws-lambda';
 import { AlphaOptions, AlphaResponse } from '@lifeomic/alpha';
 
 export interface AlphaCliConfig extends AlphaOptions<string> {
   responsePostProcessors: ((data: AlphaResponse<string>) => AlphaResponse<string>)[];
   proxied?: boolean;
   proxyPort?: number;
+  handler?: Handler;
 }
 
 export interface AlphaCliArguments {
