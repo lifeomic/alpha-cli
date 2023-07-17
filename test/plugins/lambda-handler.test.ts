@@ -27,7 +27,7 @@ test.each([
     'lambda-handler': path.join(__dirname, '..', 'lambdaHandlers', lambdaHandlerFile),
   };
   await expect(pluginFunc(config, cliArgs)).resolves.toBeUndefined();
-  expect(config).toHaveProperty('lambda', expect.any(Function));
+  expect(config).toHaveProperty('handler', expect.any(Function));
 });
 
 test('will throw exception on unknown extension', async () => {

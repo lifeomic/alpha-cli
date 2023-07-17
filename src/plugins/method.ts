@@ -8,8 +8,6 @@ export default (yargs: Argv) => {
   });
 
   return (config: AlphaCliConfig, { request }: AlphaCliArguments) => {
-    if (request) {
-      config.method = request;
-    }
+    config.method = request ?? 'GET';
   };
 };
