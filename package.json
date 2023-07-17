@@ -23,7 +23,7 @@
     "clean": "yarn tsc --build --clean; rm -rf tsconfig.build.tsbuildinfo tsconfig.tsbuildinfo"
   },
   "devDependencies": {
-    "@aws-sdk/types": "^3.110.0",
+    "@aws-sdk/types": "^3.370.0",
     "@koa/router": "^12.0.0",
     "@lifeomic/eslint-config-standards": "^3.0.0",
     "@lifeomic/jest-config": "^1.1.3",

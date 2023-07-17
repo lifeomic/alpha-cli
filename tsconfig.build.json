@@ -3,9 +3,7 @@
   "compilerOptions": {
     "noEmit": false
   },
-  "exclude": [
-    "*.js",
-    "*.ts",
-    "test/**"
+  "include": [
+    "src/"
   ]
 }
