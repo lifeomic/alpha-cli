@@ -2,13 +2,14 @@ import type { Argv } from 'yargs';
 import { AlphaCliConfig, AlphaCliArguments } from '../types';
 
 export const parseLine = (headers: Record<string, string>, line: string) => {
-  const [untrimmedKey, untrimmedValue] = line.split(':');
-  if (untrimmedValue === undefined) {
+  const indexOfFirstColon = line.indexOf(':');
+
+  if (indexOfFirstColon < 0) {
     return headers;
   }
 
-  const key = untrimmedKey.trim();
-  const value = untrimmedValue.trim();
+  const key = line.slice(0, indexOfFirstColon).trim();
+  const value = line.slice(indexOfFirstColon + 1).trim();
 
   if (value) {
     // This object is simply used to serialize headers on the client
