@@ -1,8 +1,8 @@
-import type { Argv } from "yargs";
-import { AlphaCliConfig, AlphaCliArguments } from "../types";
+import type { Argv } from 'yargs';
+import { AlphaCliConfig, AlphaCliArguments } from '../types';
 
 export const parseLine = (headers: Record<string, string>, line: string) => {
-  const indexOfFirstColon = line.indexOf(":");
+  const indexOfFirstColon = line.indexOf(':');
 
   if (indexOfFirstColon < 0) {
     return headers;
@@ -25,10 +25,10 @@ export const parseLine = (headers: Record<string, string>, line: string) => {
 };
 
 export default (yargs: Argv) => {
-  yargs.option("H", {
-    alias: "header",
-    type: "string",
-    describe: "Pass custom header line to server",
+  yargs.option('H', {
+    alias: 'header',
+    type: 'string',
+    describe: 'Pass custom header line to server',
   });
 
   return (config: AlphaCliConfig, { header }: AlphaCliArguments) => {
